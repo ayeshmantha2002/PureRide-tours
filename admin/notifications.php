@@ -53,8 +53,10 @@ $notifiUP_result = mysqli_query($connection, $notifiUP);
                             $notiStatus = $fetch_notifications['Status'];
                             if ($notiStatus == 3) {
                                 $color = "#000";
+                                $font_weight = "bold";
                             } elseif ($notiStatus == 2) {
                                 $color = "gray";
+                                $font_weight = "normal";
                             }
                             echo "
                                 <a href='view-notification.php?id={$notiID}'>
@@ -68,7 +70,7 @@ $notifiUP_result = mysqli_query($connection, $notifiUP);
                                                     <h4 style='color: {$color};'> {$notiSubject} </h4>
                                                 </div>
                                                 <div>
-                                                    <p style='font-size: 12px;'> {$notiDate} </p>
+                                                    <p style='font-size: 12px; color: {$color}; font-weight: {$font_weight};'> {$notiDate} </p>
                                                 </div>
                                             </div>
                                             <div class='title_down'>
