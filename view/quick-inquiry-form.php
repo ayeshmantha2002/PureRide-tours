@@ -50,13 +50,21 @@ if (isset($_POST['order'])) {
     $email_body .=   "<b>Drop off time :</b> {$drop_off_time} <br>";
     $email_body .=   "<b>Message :</b> {$message} <br>" . nl2br(strip_tags($message));
 
+    $save_message =   "<b>From :</b> {$title} {$name} <br>";
+    $save_message .=   "<b>Mobile number :</b> {$number} <br>";
+    $save_message .= "Please check the order details and contact the customer";
+
     $header =   "From : {$email}\r\nContent-type: text/html;";
 
     $status = mail($to, $email_subject, $email_body, $header);
     $date = date("M d");
+    $insert_message = "INSERT INTO `messages` (`Icon`, `Name`, `E-mail`, `Number`, `Subject`, `Message`, `Date`, `Status`) VALUES ('fa-solid fa-car-side', '{$title} {$name}', '{$email}', {$number}, 'Order', '{$save_message}', '{$date}', 3)";
+    $insert_message_result = mysqli_query($connection, $insert_message);
+
+    $update_noti = "UPDATE `admins` SET `Notification` = 1";
+    $update_noti_result = mysqli_query($connection, $update_noti);
+
     if ($status) {
-        $insert_message = "INSERT INTO `messages` (`Icon`, `Name`, `E-mail`, `Number`, `Subject`, `Message`, `Date`, `Status`) VALUES ('fa-solid fa-car-side', '{$title} {$name}', '{$email}', {$number}, 'Order', '{$email_body}', '{$date}', 3)";
-        $insert_message_result = mysqli_query($connection, $insert_message);
         header('location:index.php?mail=successfully_completed');
     } else {
         $errors[] = "E-mail is not send.";
