@@ -1,0 +1,463 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --main-color1: #ad8d3b;
+  --main-color2: #000;
+  --main-color3: #daa520;
+  --main-color4: #eeeeee;
+  --main-color5: #fff;
+  --text-color: #fff;
+  --text-color-dark: #000;
+  --shadow: #00000030;
+  --dark-shadow: #00000080;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins;
+  -webkit-tap-highlight-color: #00000000;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dark-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.hide {
+  display: none;
+}
+
+.loading img {
+  width: 100px;
+}
+
+.login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login form {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  background-color: var(--main-color4);
+}
+
+input[type="submit"] {
+  background-color: var(--main-color1);
+  color: var(--main-color5);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--main-color2);
+  scale: 98%;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  cursor: pointer;
+}
+
+form h2 {
+  text-align: center;
+}
+
+.mobile_area {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.hero {
+  width: 100%;
+  height: 265px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: var(--main-color1);
+  display: flex;
+  flex-direction: column;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.notifications {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.notifications i {
+  color: var(--main-color1);
+  padding: 10px 11px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: var(--main-color5);
+  box-shadow: 0 0 10px var(--main-color5);
+}
+
+.logo {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logo div img {
+  width: 120px;
+  border-radius: 50%;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: var(--main-color2);
+}
+
+.quick_buttons {
+  width: 90%;
+  margin: auto;
+  background-color: var(--main-color5);
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+.quick_buttons div {
+  width: 100%;
+  position: relative;
+}
+
+.quick_buttons div button {
+  padding: 10px;
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background-color: var(--main-color2);
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.quick_buttons div button a {
+  color: var(--text-color);
+  font-weight: bold;
+  text-decoration: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.quick_buttons div button:hover {
+  background-color: var(--main-color1);
+  scale: 95%;
+}
+
+.notifications .noti {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  top: 8px;
+  left: 35px;
+  z-index: 1;
+  background-color: red;
+}
+
+.quick_buttons div .noti {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  background-color: red;
+}
+
+.website-contolers {
+  text-align: center;
+  margin-top: 70px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.buttons div {
+  width: 100%;
+}
+
+.buttons div button {
+  padding: 10px;
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background-color: var(--main-color1);
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.buttons div button a {
+  color: var(--text-color-dark);
+  font-weight: bold;
+  text-decoration: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.buttons div button:hover {
+  background-color: var(--main-color2);
+  color: var(--text-color);
+}
+
+.buttons div button:hover a {
+  color: var(--text-color);
+}
+
+.mobile_area nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--main-color1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile_area nav .back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 2px;
+  padding-left: 5px;
+  box-sizing: border-box;
+}
+
+.mobile_area nav .back a {
+  text-decoration: none;
+  color: var(--text-color-dark);
+}
+
+.mobile_area nav .back i {
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.notifi_area {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification {
+  width: 92%;
+  height: calc(100vh - 5%);
+  box-shadow: 0 0 10px var(--shadow);
+  border-radius: 10px;
+  padding-top: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.close i {
+  font-size: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.close i:hover {
+  rotate: -360deg;
+  scale: 120%;
+}
+
+#notification {
+  top: 50px;
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: calc(100% - 52px);
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+#notification a {
+  text-decoration: none;
+}
+
+#notification a .msg {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: 20px;
+  border-bottom: 1px solid var(--shadow);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+#notification a .msg .img i {
+  width: 55px;
+  height: 55px;
+  color: var(--main-color2);
+  background-color: var(--main-color3);
+  border-radius: 50%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid var(--main-color2);
+}
+
+#notification a .msg .title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#notification a .msg .title_up {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--text-color-dark);
+}
+
+#notification a .msg .title_up .sub h4 {
+  width: 280px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#notification a .msg .title_down {
+  width: 100%;
+}
+
+#notification a .msg .title_down p {
+  width: 100%;
+  max-height: 35px;
+  overflow: hidden;
+  font-size: 12px;
+  color: gray;
+}
+
+#notification a:hover .msg {
+  background-color: #d3d3d350;
+  scale: 101%;
+  box-shadow: 0 5px 5px var(--shadow);
+  margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 550px) {
+  #notification a .msg .title_up .sub h4 {
+    width: 250px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  #notification a .msg .title_up .sub h4 {
+    width: 210px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #notification a .msg .title_up .sub h4 {
+    width: 170px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  #notification a .msg .title_up .sub h4 {
+    width: 130px;
+  }
+}
+@media only screen and (max-width: 344px) {
+  #notification a .msg .title_up .sub h4 {
+    width: 120px;
+  }
+}

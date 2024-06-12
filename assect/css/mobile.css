@@ -1,0 +1,306 @@
+:root {
+  --main-color1: #ad8d3b;
+  --main-color2: #000;
+  --main-color3: #daa520;
+  --main-color4: #eeeeee;
+  --main-color5: #fff;
+  --text-color: #fff;
+  --shadow: #00000035;
+  --text-color-dark: #000;
+  --shadow: #00000030;
+}
+
+@media only screen and (max-width: 1130px) {
+  .downNav {
+    display: none;
+  }
+
+  .carousel {
+    margin-top: 80px;
+  }
+
+  .quickBook {
+    position: fixed;
+    width: 150px;
+    top: 60px;
+    right: 20px;
+    z-index: 2;
+    background-color: #000;
+    color: var(--text-color);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .quickBooktow {
+    display: none;
+  }
+
+  .quickBook:hover {
+    background-color: var(--main-color3);
+    color: var(--text-color-dark);
+  }
+
+  .mobile_submit,
+  .mobile_menu {
+    display: block;
+    position: fixed;
+    top: 75px;
+    left: 0;
+    width: 100%;
+    background-color: var(--main-color4);
+    z-index: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    transform: translateY(-650px);
+    transition: 0.5s;
+    opacity: 0;
+  }
+
+  .mobile_menu p {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .mobile_menu p a {
+    position: absolute;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    background-color: var(--main-color5);
+    border-radius: 5px;
+    color: var(--text-color-dark);
+    font-weight: bold;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .mobile_menu p a:hover {
+    background-color: var(--shadow);
+  }
+
+  .mobile_submit form {
+    margin-top: 40px;
+  }
+
+  .mobile_submit form input,
+  .mobile_submit form select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    outline: none;
+  }
+
+  .mobile_submit form input[type="submit"] {
+    background-color: var(--main-color2);
+    font-weight: bold;
+    color: var(--text-color);
+  }
+
+  .mobile_submit form input[type="submit"]:hover {
+    background-color: var(--main-color3);
+    color: var(--text-color-dark);
+  }
+
+  .aling {
+    margin-top: 100px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .up_links {
+    display: none;
+  }
+
+  .menu_btn {
+    display: block;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  .menu_btn i {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 1004px) {
+  .leeft {
+    gap: 5px;
+  }
+
+  .aling .down {
+    display: flex;
+    flex-wrap: wrap-reverse;
+  }
+
+  .about,
+  .wedding {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 20px;
+  }
+
+  #about {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .about img {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .aditionol {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .aling .up table {
+    display: none;
+  }
+
+  .mobile_rates {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    row-gap: 20px;
+  }
+
+  .aling .up .mobile_rates table {
+    display: block;
+  }
+
+  .aling .up .mobile_rates table img {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .upNav {
+    justify-content: center;
+  }
+  .hotline {
+    display: none;
+  }
+
+  .mobile_down_nav {
+    display: block;
+  }
+
+  .quickBook {
+    display: none;
+  }
+
+  .menu_btn {
+    display: none;
+  }
+
+  .com_name div img {
+    width: 30px;
+  }
+
+  .com_name div h1 {
+    font-size: 20px;
+  }
+
+  .com_name div p {
+    font-size: 8px;
+  }
+
+  .carousel {
+    margin-top: 58px;
+  }
+
+  .mobile_down_nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .mobile_down_nav div {
+    width: 100%;
+    text-align: center;
+    background-color: #000;
+    color: var(--text-color);
+    position: relative;
+  }
+
+  .mobile_down_nav div button {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--main-color2);
+    color: var(--text-color);
+    font-weight: bold;
+    border: none;
+    outline: none;
+  }
+
+  .carousel {
+    position: relative;
+    margin-top: 98px;
+  }
+
+  .small-off {
+    display: block;
+  }
+
+  .small {
+    display: none;
+  }
+
+  .about_content {
+    text-align: justify;
+    margin: 10px;
+  }
+
+  /* .about_content h2 {
+    text-align: center;
+  } */
+
+  .link_center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .fleet {
+    width: 100%;
+  }
+
+  .links {
+    display: none;
+  }
+
+  .boxes {
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+  }
+
+  .orderMap {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  #ff {
+    padding-right: 0;
+    box-sizing: border-box;
+    border-right: none;
+  }
+}

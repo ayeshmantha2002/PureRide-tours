@@ -1,0 +1,12 @@
+RewriteEngine On
+
+RewriteRule ^index$ index.php [NC,L]
+RewriteRule ^contact$ view/contact-us.php [NC,L]
+RewriteRule ^quick$ view/quick-inquiry-form.php [NC,L]
+RewriteRule ^vehicle-fleet$ view/vehicle-fleet.php [NC,L]
+
+# Disabling Directory Browse
+Options -Indexes
+
+# Custom Error Page
+ErrorDocument 404 /404.php
