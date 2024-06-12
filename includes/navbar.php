@@ -59,11 +59,19 @@
                     <td>
                         <select name="vehicle" required>
                             <option value=""> Vehicle Type </option>
-                            <option value="car"> car </option>
-                            <option value="van"> van </option>
-                            <option value="bike"> bike </option>
-                            <option value="tuk-tuk"> tuk-tuk </option>
-                            <option value="bus"> bus </option>
+                            <?php
+                            // list vehicles 
+                            $vehicle_list = "SELECT * FROM `vehicle_type` WHERE `Status` = 1";
+                            $vehicle_list_result = mysqli_query($connection, $vehicle_list);
+                            if (mysqli_num_rows($vehicle_list_result) > 0) {
+                                while ($fetch_vehicles = mysqli_fetch_assoc($vehicle_list_result)) {
+                                    $vehicle_type = $fetch_vehicles['Vehicle'];
+                                    echo "
+                                        <option value='{$vehicle_type}'> {$vehicle_type} </option>
+                                    ";
+                                }
+                            }
+                            ?>
                         </select>
                     </td>
                     <td style="position: relative; width: 200px;">
@@ -124,11 +132,19 @@
         <p>
             <select name="vehicle" required>
                 <option value=""> Vehicle Type </option>
-                <option value="car"> car </option>
-                <option value="van"> van </option>
-                <option value="bike"> bike </option>
-                <option value="tuk-tuk"> tuk-tuk </option>
-                <option value="bus"> bus </option>
+                <?php
+                // list vehicles 
+                $vehicle_list = "SELECT * FROM `vehicle_type` WHERE `Status` = 1";
+                $vehicle_list_result = mysqli_query($connection, $vehicle_list);
+                if (mysqli_num_rows($vehicle_list_result) > 0) {
+                    while ($fetch_vehicles = mysqli_fetch_assoc($vehicle_list_result)) {
+                        $vehicle_type = $fetch_vehicles['Vehicle'];
+                        echo "
+                            <option value='{$vehicle_type}'> {$vehicle_type} </option>
+                            ";
+                    }
+                }
+                ?>
             </select>
         </p>
         <br>
