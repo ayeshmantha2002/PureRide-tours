@@ -23,7 +23,7 @@ if (mysqli_num_rows($notifiMsg_result) == 1) {
 // order indicator
 $notifiOrders = "SELECT `Status` FROM `orders` WHERE `Status` = 1";
 $notifiOrders_result = mysqli_query($connection, $notifiOrders);
-if (mysqli_num_rows($notifiOrders_result) > 1) {
+if (mysqli_num_rows($notifiOrders_result) > 0) {
     $hiddenOrders = "";
 } else {
     $hiddenOrders = "hidden";
@@ -32,7 +32,7 @@ if (mysqli_num_rows($notifiOrders_result) > 1) {
 // tours_orders indicator
 $notifitours_orders = "SELECT `Status` FROM `tours_orders` WHERE `Status` = 1";
 $notifitours_orders_result = mysqli_query($connection, $notifitours_orders);
-if (mysqli_num_rows($notifitours_orders_result) > 1) {
+if (mysqli_num_rows($notifitours_orders_result) > 0) {
     $hiddentours_orders = "";
 } else {
     $hiddentours_orders = "hidden";
@@ -79,7 +79,7 @@ if (mysqli_num_rows($notifitours_orders_result) > 1) {
                 </div>
                 <div>
                     <div class="noti fa-beat-fade" <?= $hiddentours_orders; ?>></div>
-                    <button> <a href="#" class="click" onclick="clickFunction()"> Trip Orders </a> </button>
+                    <button> <a href="tours.php" class="click" onclick="clickFunction()"> Trip Orders </a> </button>
                 </div>
                 <div>
                     <div class="noti fa-beat-fade"></div>
@@ -92,12 +92,12 @@ if (mysqli_num_rows($notifitours_orders_result) > 1) {
         <section class="website-contolers">
             <h4> Main controls </h4>
             <div class="buttons">
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> MAIN BANNER </a> </button> </div>
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> VEHICLE TYPES </a> </button> </div>
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> VEHICLE FLEET </a> </button> </div>
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> SERVICES </a> </button> </div>
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> PICKUP LOCATIONS </a> </button> </div>
-                <div> <button> <a href="#" class="click" onclick="clickFunction()"> TOURS </a> </button> </div>
+                <div> <button> <a href="banner.php" class="click" onclick="clickFunction()"> MAIN BANNER </a> </button> </div>
+                <div> <button> <a href="vehicle.php" class="click" onclick="clickFunction()"> VEHICLE TYPES </a> </button> </div>
+                <div> <button> <a href="vehicle-fleet.php" class="click" onclick="clickFunction()"> VEHICLE FLEET </a> </button> </div>
+                <div> <button> <a href="services.php" class="click" onclick="clickFunction()"> SERVICES </a> </button> </div>
+                <div> <button> <a href="picup-locations.php" class="click" onclick="clickFunction()"> PICKUP LOCATIONS </a> </button> </div>
+                <div> <button> <a href="tours.php" class="click" onclick="clickFunction()"> TOURS </a> </button> </div>
                 <div> <button> <a href="add-admin.php" class="click" onclick="clickFunction()"> ADMINS </a> </button> </div>
                 <div> <button> <a href="#" class="click" onclick="clickFunction()"> <i class="fa-solid fa-gear fa-spin"></i> </a> </button> </div>
             </div>
