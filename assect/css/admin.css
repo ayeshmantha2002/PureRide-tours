@@ -461,3 +461,136 @@ form h2 {
     width: 120px;
   }
 }
+
+.ad-form {
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.double {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.double p input {
+  width: 100%;
+}
+
+.editbox_area {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(10px);
+  background-color: var(--shadow);
+  padding: 10px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.editbox {
+  width: 100%;
+  max-width: 450px;
+  height: 120px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: var(--main-color5);
+  box-shadow: 0 0 20px var(--shadow);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.editbox div {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.editbox div p {
+  position: relative;
+  height: 35px;
+}
+
+.editbox div a {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--main-color1);
+  font-weight: bold;
+  border-radius: 5px;
+  color: var(--text-color-dark);
+  transition: 0.3s;
+}
+
+.editbox div a:hover {
+  scale: 105%;
+  box-shadow: 0 10px 10px var(--shadow);
+  color: var(--text-color);
+}
+
+.update_message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--shadow);
+}
+
+.update_message_box {
+  width: 85%;
+  max-width: 450px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--main-color5);
+  border-radius: 10px;
+  box-shadow: 0 10px 10px var(--shadow);
+  text-align: center;
+}
+
+.update_message_box i {
+  font-size: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.update_message_box .done i {
+  border: 2px solid green;
+}
+
+.update_message_box a {
+  text-decoration: none;
+  padding: 5px 20px;
+  box-sizing: border-box;
+  background-color: var(--main-color1);
+  color: var(--text-color);
+  border-radius: 5px;
+  font-weight: bold;
+}
