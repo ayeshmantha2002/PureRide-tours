@@ -23,7 +23,7 @@ if (isset($_POST['log'])) {
         $ID = $user_details['ID'];
 
         if (isset($_POST['rem'])) {
-            setcookie('ID', $ID, time() + 60 * 60 * 12);
+            setcookie('ID', $ID, time() + 60 * 60 * 24);
         }
         $_SESSION['ID'] = $ID;
         header("location: admin.php");
