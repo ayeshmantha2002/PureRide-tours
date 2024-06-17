@@ -1,3 +1,7 @@
+<?php
+include("../includes/connection.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,82 +40,47 @@
                     </p>
                     <br>
                     <div class="boxes">
-                        <div class="border">
-                            <img src="assect/img/car_fleet.jpg" alt="car">
-                            <br>
-                            <div class="border-details">
-                                <div>
-                                    <h3> CAR </h3>
-                                    <p> There is a brand new fleet of luxury cars for hire in Sri Lanka on offer. </p>
+                        <?php
+                        $fleet = "SELECT * FROM `fleet` WHERE `Status` = 1";
+                        $fleet_result = mysqli_query($connection, $fleet);
+                        if (mysqli_num_rows($fleet_result) > 0) {
+                            while ($fetch_fleet = mysqli_fetch_assoc($fleet_result)) {
+                                $vehicle_Img = $fetch_fleet['Img'];
+                                $vehicle_name = $fetch_fleet['Vehicle_name'];
+                                $vehicle_Description = $fetch_fleet['Description'];
+
+                                echo "
+                                    <div class='border'>
+                                        <img src='assect/img/{$vehicle_Img}' alt='car'>
+                                        <br>
+                                        <div class='border-details'>
+                                            <div>
+                                                <h3> {$vehicle_name} </h3>
+                                                <p> {$vehicle_Description} </p>
+                                            </div>
+                                        <div>
+                                            <a href='view/rates.php?cat={$vehicle_name}'> FIND OUT MORE </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <a href="view/rates.php?cat=car"> FIND OUT MORE </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border">
-                            <img src="assect/img/van_fleet.jpg" alt="car">
-                            <br>
-                            <div class="border-details">
-                                <div>
-                                    <h3> VAN </h3>
-                                    <p> Select from a range of premium cars.
-                                        The general range includes recent models </p>
-                                </div>
-                                <div>
-                                    <a href="view/rates.php?cat=Van"> FIND OUT MORE </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border">
-                            <img src="assect/img/suv_fleet.jpeg" alt="car">
-                            <br>
-                            <div class="border-details">
-                                <div>
-                                    <h3> SUV </h3>
-                                    <p> SUV and 4WD models, ideal for those looking to rent a car in Sri Lanka to explore the island is scenic nature getaways.. </p>
-                                </div>
-                                <div>
-                                    <a href="view/rates.php?cat=SUV"> FIND OUT MORE </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border">
-                            <img src="assect/img/bus_fleet.jpg" alt="car">
-                            <br>
-                            <div class="border-details">
-                                <div>
-                                    <h3> BUS </h3>
-                                    <p> Buses of any type are available as well as minibuses in excellent condition. </p>
-                                </div>
-                                <div>
-                                    <a href="view/rates.php?cat=Bus"> FIND OUT MORE </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border">
-                            <img src="assect/img/tuk-tuk_fleet.jpg" alt="car">
-                            <br>
-                            <div class="border-details">
-                                <div>
-                                    <h3> TUKTUK / THREE WHEELERS </h3>
-                                    <p> Experience a reliable and hassle-free Tuktuk rental experience in Sri Lanka. </p>
-                                </div>
-                                <div>
-                                    <a href="view/rates.php?cat=Tuk_Tuk"> FIND OUT MORE </a>
-                                </div>
-                            </div>
-                        </div>
+                                ";
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="contact_form links">
                     <ul>
-                        <li> <a href="view/rates.php?cat=car"> Car </a> </li>
-                        <li> <a href="view/rates.php?cat=Van"> Van </a> </li>
-                        <li> <a href="view/rates.php?cat=SUV"> SUV </a> </li>
-                        <li> <a href="view/rates.php?cat=Bus"> Bus </a> </li>
-                        <li> <a href="view/rates.php?cat=Bike"> Bike </a> </li>
-                        <li> <a href="view/rates.php?cat=Tuk_Tuk"> Tuk Tuk </a> </li>
+                        <?php
+                        $fleet = "SELECT `Vehicle_name` FROM `fleet` WHERE `Status` = 1";
+                        $fleet_result = mysqli_query($connection, $fleet);
+                        if (mysqli_num_rows($fleet_result) > 0) {
+                            while ($fetch_fleet = mysqli_fetch_assoc($fleet_result)) {
+                                $vehicle_name = $fetch_fleet['Vehicle_name'];
+                                echo " <li> <a href='view/rates.php?cat={$vehicle_name}'> {$vehicle_name} </a> </li> ";
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>
