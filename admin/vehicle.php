@@ -82,7 +82,7 @@ if (isset($_GET['recode'])) {
 // delete_message
 if (isset($_GET['delete'])) {
     if ($_GET['delete'] == "done") {
-        $delete_message = "";
+        $delete_message = "flex";
     } else {
         $delete_message = "none";
     }
