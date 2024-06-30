@@ -1,5 +1,63 @@
 <?php
 include("includes/connection.php");
+
+$today = date("M d");
+
+if (isset($_POST['wht-message'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $message = htmlspecialchars($_POST['msg']);
+
+    $whatsappUrl = "https://api.whatsapp.com/send?phone=94712916663&text=*Name:*%20$name%0A*Email:*%20$email%0A*Message:*%20$message";
+    header("Location: $whatsappUrl");
+    exit();
+}
+
+// banner
+$banner_list = "SELECT * FROM `banner` WHERE `Status` = 1";
+$banner_list_result = mysqli_query($connection, $banner_list);
+
+// trip card
+$trip = "SELECT * FROM `tours` WHERE `Status` = 1";
+$trip_result = mysqli_query($connection, $trip);
+
+if (isset($_GET['traval'])) {
+    $tour_id = mysqli_real_escape_string($connection, $_GET['traval']);
+    $display = "flex";
+    $tour_details = "SELECT * FROM `tours` WHERE `ID` = {$tour_id}";
+    $tour_details_result = mysqli_query($connection, $tour_details);
+    if (mysqli_num_rows($tour_details_result) == 1) {
+        $fetch_tour = mysqli_fetch_assoc($tour_details_result);
+        $trip_ID = $fetch_tour['ID'];
+        $trip_Pic = $fetch_tour['Pic'];
+        $trip_P_From = $fetch_tour['P_From'];
+        $trip_P_To = $fetch_tour['P_To'];
+        $trip_Distance = $fetch_tour['Distance'];
+        $trip_Duration = $fetch_tour['Duration'];
+        $trip_Description_one = $fetch_tour['Description_one'];
+        $trip_Description_tow = $fetch_tour['Description_tow'];
+        $trip_Description_three = $fetch_tour['Description_three'];
+        $trip_Price = $fetch_tour['Price'];
+    }
+} else {
+    $display = "none";
+}
+
+if (isset($_POST['booking'])) {
+    $insert_trip_id = mysqli_real_escape_string($connection, $_POST['id']);
+    $insert_trip_trip_name = mysqli_real_escape_string($connection, $_POST['trip_name']);
+    $insert_trip_Name = mysqli_real_escape_string($connection, $_POST['Name']);
+    $insert_trip_email = mysqli_real_escape_string($connection, $_POST['email']);
+    $insert_trip_Number = mysqli_real_escape_string($connection, $_POST['Number']);
+    $insert_trip_p_date = mysqli_real_escape_string($connection, $_POST['p_date']);
+
+    $insert_trip = "INSERT INTO `tours_orders` (`Name`, `E-mail`, `Number`, `Picup_date`, `Tour_ID`, `Tour_Name`, `Status`, `Order_date`) VALUES ('{$insert_trip_Name}', '{$insert_trip_email}', {$insert_trip_Number}, '{$insert_trip_p_date}', {$insert_trip_id}, '{$insert_trip_trip_name}', 3, '{$today}')";
+    $insert_trip_result = mysqli_query($connection, $insert_trip);
+    if ($insert_trip_result) {
+        header("location: /PureRide-tours/index.php?order=done");
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,207 +66,160 @@ include("includes/connection.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> PureRide tours </title>
-    <link rel="stylesheet" href="assect/css/slider.css">
-    <link rel="stylesheet" href="assect/css/style.css">
-    <link rel="stylesheet" href="assect/css/mobile.css">
-    <link rel="icon" type="image/x-icon" href="assect/img/favicon.png">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/slider.css">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/style.css">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/mobile.css">
+    <link rel="icon" type="image/x-icon" href="/PureRide-tours/assect/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <div class="content">
         <!-- navigation bar -->
-        <nav>
-            <div class="upNav">
-                <div class="menu_btn">
-                    <i class="fa-solid fa-bars"></i>
-                </div>
-                <div class="com_name">
-                    <div>
-                        <img src="assect/img/Pueride Tours Nav Logo.png" alt="logo">
-                    </div>
-                    <div>
-                        <h1> PureRide tours </h1>
-                        <p> Lorem ipsum dolor sit. </p>
-                    </div>
-                </div>
-                <div class="up_links">
-                    <ul>
-                        <li> <a href="#" class="active_page"> HOME </a> </li>
-                        <li> <a href="#about"> ABOUT </a> </li>
-                        <li> <a href="#vehicle_feeft"> VEHICLE FLEET </a> </li>
-                        <li> <a href="#services"> SERVICE </a> </li>
-                        <li> <a href="#"> GUIDES </a> </li>
-                        <li> <a href="contact"> CONTACT US </a> </li>
-                    </ul>
-                </div>
-                <div class="hotline">
-                    <i class="fa-solid fa-phone-volume"></i>
-                    <p> +94 70 49 02 790 </p>
-                </div>
-            </div>
-            <div class="downNav">
-                <form action="quick" method="post">
-                    <table>
-                        <tr>
-                            <td>
-                                <select name="dr_mod" required>
-                                    <option value="Self Drive" disabled>Self Drive</option>
-                                    <option value="Tours/ Chauffeur Driven">Tours/ Chauffeur Driven</option>
-                                    <option value="Weddings &amp; Events">Weddings &amp; Events</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="location" required>
-                                    <option value=""> Pickup Location </option>
-                                    <option value="Ettampitiya"> Ettampitiya </option>
-                                </select>
-                            </td>
-                            <td>
-                                <label for="picup_date"> Pickup Date </label><br>
-                                <input type="date" name="picup_date" id="picup_date" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" required>
-                            </td>
-                            <td>
-                                <label for="picup_time"> Pickup Time </label><br>
-                                <input type="time" name="picup_time" id="picup_time" required>
-                            </td>
-                            <td>
-                                <label for="return_date"> Return Date </label><br>
-                                <input type="date" name="return_date" id="return_date" min="<?php echo date("Y-m-d"); ?>" value="<?php echo date("Y-m-d"); ?>" required>
-                            </td>
-                            <td>
-                                <select name="vehicle" required>
-                                    <option value=""> Vehicle Type </option>
-                                    <?php
-                                    // list vehicles 
-                                    $vehicle_list = "SELECT * FROM `vehicle_type` WHERE `Status` = 1";
-                                    $vehicle_list_result = mysqli_query($connection, $vehicle_list);
-                                    if (mysqli_num_rows($vehicle_list_result) > 0) {
-                                        while ($fetch_vehicles = mysqli_fetch_assoc($vehicle_list_result)) {
-                                            $vehicle_type = $fetch_vehicles['Vehicle'];
-                                            echo "
-                                                <option value='{$vehicle_type}'> {$vehicle_type} </option>
-                                                ";
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </td>
-                            <td style="position: relative; width: 200px;">
-                                <input type="submit" name="submit" value="SUBMIT">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-
-            <!-- mobile down menu  -->
-            <div class="mobile_down_nav">
-                <div>
-                    <button class="menu_btn_phone"> <i class="fa-solid fa-bars"></i> </button>
-                </div>
-                <div>
-                    <button class="quick_btn"> Quick Book </button>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Mobile screen form  -->
-        <button class="quickBook quickBookone">
-            Quick Book
-        </button>
-
-        <button class="quickBook quickBooktow">
-            <i class="fa-solid fa-xmark fa-2xl"></i>
-        </button>
-
-        <section class="mobile_submit">
-            <form action="quick" method="post">
-                <p>
-                    <select name="dr_mod" required>
-                        <option value="Self Drive" disabled>Self Drive</option>
-                        <option value="Tours/ Chauffeur Driven">Tours/ Chauffeur Driven</option>
-                        <option value="Weddings &amp; Events">Weddings &amp; Events</option>
-                    </select>
-                </p>
-                <p>
-                    <select name="location" required>
-                        <option value=""> Pickup Location </option>
-                        <option value="Ettampitiya"> Ettampitiya </option>
-                    </select>
-                </p>
-                <p>
-                    <label for="picup_date"> Pickup Date </label><br>
-                    <input type="date" name="picup_date" id="picup_date" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" required>
-                </p>
-                <p>
-                    <label for="picup_time"> Pickup Time </label><br>
-                    <input type="time" name="picup_time" id="picup_time" required>
-                </p>
-                <p>
-                    <label for="return_date"> Return Date </label><br>
-                    <input type="date" name="return_date" id="return_date" min="<?php echo date("Y-m-d"); ?>" value="<?php echo date("Y-m-d"); ?>" required>
-                </p>
-                <p>
-                    <select name="vehicle" required>
-                        <option value=""> Vehicle Type </option>
-                        <?php
-                        // list vehicles 
-                        $vehicle_list = "SELECT * FROM `vehicle_type` WHERE `Status` = 1";
-                        $vehicle_list_result = mysqli_query($connection, $vehicle_list);
-                        if (mysqli_num_rows($vehicle_list_result) > 0) {
-                            while ($fetch_vehicles = mysqli_fetch_assoc($vehicle_list_result)) {
-                                $vehicle_type = $fetch_vehicles['Vehicle'];
-                                echo "
-                                    <option value='{$vehicle_type}'> {$vehicle_type} </option>
-                                ";
-                            }
-                        }
-                        ?>
-                    </select>
-                </p>
-                <br>
-                <p>
-                    <input type="submit" name="submit" value="SUBMIT">
-                </p>
-            </form>
-        </section>
-
-        <!-- mobile menu -->
-        <div class="mobile_menu">
-            <br>
-            <p> <a href="#" class="active_page"> HOME </a> </p>
-            <p> <a href="#about"> ABOUT </a> </p>
-            <p> <a href="#vehicle_feeft"> VEHICLE FLEET </a> </p>
-            <p> <a href="#services"> SERVICE </a> </p>
-            <p> <a href="#"> GUIDES </a> </p>
-            <p> <a href="contact"> CONTACT US </a> </p>
-        </div>
+        <?php
+        include("includes/navbar.php");
+        ?>
 
         <!-- slide show -->
         <div id="carouselExampleIndicators" class="carousel slide">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="small" src="assect/img/cover.jpg" alt="cover 1 image">
-                    <img class="small-off" src="assect/img/cover-mobile.jpg" alt="cover 1 image">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Lorem ipsum dolor sit.</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque, amet.</p>
+            <?php
+            if (mysqli_num_rows($banner_list_result) == 1) {
+                $fetch_banner = mysqli_fetch_assoc($banner_list_result);
+                $desctop = $fetch_banner['Image_name'];
+                $mobile = $fetch_banner['Mobile_image'];
+                $Hedding = $fetch_banner['Hedding'];
+                $Description = $fetch_banner['Description'];
+
+                echo "
+                    <ol class='carousel-indicators'>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+                    </ol>
+                    <div class='carousel-inner'>
+                        <div class='carousel-item active'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5>{$Hedding}</h5>
+                                <p> {$Description} </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="small" src="assect/img/cover2.jpg" alt="cover 1 image">
-                    <img class="small-off" src="assect/img/cover2-mobile.jpg" alt="cover 1 image">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Lorem ipsum dolor sit.</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque, amet.</p>
+                ";
+            } elseif (mysqli_num_rows($banner_list_result) == 2) {
+                $fetch_banner1 = mysqli_fetch_assoc($banner_list_result);
+                $desctop = $fetch_banner1['Image_name'];
+                $mobile = $fetch_banner1['Mobile_image'];
+                $Hedding = $fetch_banner1['Hedding'];
+                $Description = $fetch_banner1['Description'];
+
+                $fetch_banner2 = mysqli_fetch_assoc($banner_list_result);
+                $desctop2 = $fetch_banner2['Image_name'];
+                $mobile2 = $fetch_banner2['Mobile_image'];
+                $Hedding2 = $fetch_banner2['Hedding'];
+                $Description2 = $fetch_banner2['Description'];
+                echo "
+                    <ol class='carousel-indicators'>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+                    </ol>
+                    <div class='carousel-inner'>
+                        <div class='carousel-item active'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5> {$Hedding} </h5>
+                                <p> {$Description} </p>
+                            </div>
+                        </div>
+                        <div class='carousel-item'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop2}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile2}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5> {$Hedding2} </h5>
+                                <p> {$Description2} </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                ";
+            } elseif (mysqli_num_rows($banner_list_result) == 3) {
+                $fetch_banner1 = mysqli_fetch_assoc($banner_list_result);
+                $desctop = $fetch_banner1['Image_name'];
+                $mobile = $fetch_banner1['Mobile_image'];
+                $Hedding = $fetch_banner1['Hedding'];
+                $Description = $fetch_banner1['Description'];
+
+                $fetch_banner2 = mysqli_fetch_assoc($banner_list_result);
+                $desctop2 = $fetch_banner2['Image_name'];
+                $mobile2 = $fetch_banner2['Mobile_image'];
+                $Hedding2 = $fetch_banner2['Hedding'];
+                $Description2 = $fetch_banner2['Description'];
+
+                $fetch_banner3 = mysqli_fetch_assoc($banner_list_result);
+                $desctop3 = $fetch_banner3['Image_name'];
+                $mobile3 = $fetch_banner3['Mobile_image'];
+                $Hedding3 = $fetch_banner3['Hedding'];
+                $Description3 = $fetch_banner3['Description'];
+
+                echo "
+                    <ol class='carousel-indicators'>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='3'></li>
+                    </ol>
+                    <div class='carousel-inner'>
+                        <div class='carousel-item active'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5> {$Hedding} </h5>
+                                <p> {$Description} </p>
+                            </div>
+                        </div>
+                        <div class='carousel-item'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop2}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile2}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5> {$Hedding2} </h5>
+                                <p> {$Description2} </p>
+                            </div>
+                        </div>
+                        <div class='carousel-item'>
+                            <img class='small' src='/PureRide-tours/assect/img/{$desctop3}' alt='cover 1 image'>
+                            <img class='small-off' src='/PureRide-tours/assect/img/{$mobile3}' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5> {$Hedding3} </h5>
+                                <p> {$Description3} </p>
+                            </div>
+                        </div>
+                    </div>
+                ";
+            } else {
+                echo "
+                    <ol class='carousel-indicators'>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+                        <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+                    </ol>
+                    <div class='carousel-inner'>
+                        <div class='carousel-item active'>
+                            <img class='small' src='https://placehold.co/800x300' alt='cover 1 image'>
+                            <img class='small-off' src='https://placehold.co/400x300' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5>Lorem ipsum dolor sit.</h5>
+                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque, amet.</p>
+                            </div>
+                        </div>
+                        <div class='carousel-item'>
+                            <img class='small' src='https://placehold.co/800x300?text=PureRide_Tours' alt='cover 1 image'>
+                            <img class='small-off' src='https://placehold.co/400x300?text=PureRide_Tours' alt='cover 1 image'>
+                            <div class='carousel-caption d-none d-md-block'>
+                                <h5>Lorem ipsum dolor sit.</h5>
+                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque, amet.</p>
+                            </div>
+                        </div>
+                    </div>
+                ";
+            }
+            ?>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
@@ -232,7 +243,7 @@ include("includes/connection.php");
                 <p class="link_center"> <a href="#">More Details</a> </p>
             </div>
             <div class="about_img">
-                <img src="assect/img/car.png" alt="car">
+                <img class="lazy" data-original="/PureRide-tours/assect/img/car.png" alt="car">
             </div>
             <div class="aditionol">
                 <div>
@@ -251,7 +262,7 @@ include("includes/connection.php");
                         <h4>AIRPORT LOCATION</h4>
                         <p>(MRIA Hambantota)</p>
                     </div>
-                    <p> <a href="view/rates.php">View Rates</a> </p>
+                    <p> <a href="rates">View Rates</a> </p>
                 </div>
             </div>
         </div>
@@ -268,41 +279,41 @@ include("includes/connection.php");
         <div class="leeft">
             <div class="double">
                 <div class="leef_box">
-                    <img src="assect/img/car.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/car.jpg" alt="car">
                     <div class="cat">
                         <h2> CARS </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
                         <br>
-                        <a href="view/rates.php?cat=car"> More Details </a>
+                        <a href="/PureRide-tours/rates/car"> More Details </a>
                     </div>
                 </div>
                 <div class="leef_box">
-                    <img src="assect/img/van.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/van.jpg" alt="car">
                     <div class="cat">
                         <h2> VANS </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
                         <br>
-                        <a href="view/rates.php?cat=Van"> More Details </a>
+                        <a href="/PureRide-tours/rates/van"> More Details </a>
                     </div>
                 </div>
             </div>
             <div class="double">
                 <div class="leef_box">
-                    <img src="assect/img/bus.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/bus.jpg" alt="car">
                     <div class="cat">
                         <h2> BUSSES </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
                         <br>
-                        <a href="view/rates.php?cat=Bus"> More Details </a>
+                        <a href="/PureRide-tours/rates/Bus"> More Details </a>
                     </div>
                 </div>
                 <div class="leef_box">
-                    <img src="assect/img/tuk.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/tuk.jpg" alt="car">
                     <div class="cat">
                         <h2> TUK-TUK </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
                         <br>
-                        <a href="view/rates.php?cat=Tuk_Tuk"> More Details </a>
+                        <a href="/PureRide-tours/rates/Tuk_Tuk"> More Details </a>
                     </div>
                 </div>
             </div>
@@ -310,7 +321,7 @@ include("includes/connection.php");
 
         <div class="wedding">
             <div class="wedding_img">
-                <img src="assect/img/wedding.jpg" alt="car">
+                <img class="lazy" data-original="/PureRide-tours/assect/img/wedding.jpg" alt="car">
             </div>
             <div class="wedding_content">
                 <h1> Weddings And Events </h1>
@@ -335,7 +346,7 @@ include("includes/connection.php");
                     </div>
                 </div>
                 <div class="leef_box">
-                    <img src="assect/img/driver.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/driver.jpg" alt="car">
                     <div class="cat">
                         <h2> WITH DRIVER/TOURS </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
@@ -344,14 +355,14 @@ include("includes/connection.php");
             </div>
             <div class="double">
                 <div class="leef_box">
-                    <img src="assect/img/airport.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/airport.jpg" alt="car">
                     <div class="cat">
                         <h2> AIRPORT / CITY </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
                     </div>
                 </div>
                 <div class="leef_box">
-                    <img src="assect/img/wedding_car.jpg" alt="car">
+                    <img class="lazy" data-original="/PureRide-tours/assect/img/wedding_car.jpg" alt="car">
                     <div class="cat">
                         <h2> WEDDING CARS </h2>
                         <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores, odit? </p>
@@ -362,67 +373,108 @@ include("includes/connection.php");
         <br>
 
         <!-- traval -->
-        <h1 style="text-align: center;"> BOOK A TOURS </h1>
-        <section class="traval">
-            <div class="card">
-                <img src="https://www.civitatis.com/f/sri-lanka/unawatuna/excursion-galle-589x392.jpg" alt="galle">
-                <div class="headline">
-                    <h3> Collombo to Galle </h3>
-                </div>
-                <div class="duration_time">
-                    <div>
-                        <h4> 250KM </h4>
-                        <p> Distance </p>
-                    </div>
-                    <div style="width: 1px; height: 30px; background-color: var(--main-color2);"></div>
-                    <div>
-                        <h4> 12 Hours </h4>
-                        <p> Duration </p>
-                    </div>
-                </div>
-                <br>
-                <div class="visit">
-                    <ul>
-                        <li> Lorem, ipsum dolor. </li>
-                        <li> Lorem, ipsum dolor. </li>
-                        <li> Galle fort national maritime architecture </li>
-                    </ul>
-                    <br>
-                </div>
-                <h3> LKR 7,500 | Vehicle </h3>
-                <div class="book">
-                    <a href="#"> BOOK NOW </a>
-                </div>
-            </div>
-        </section>
+        <?php
+        if (mysqli_num_rows($trip_result) > 0) {
+            echo "<h1 style='text-align: center;'> BOOK A TOURS </h1>";
+            echo "<section class='traval'>";
+            while ($fetch_trip = mysqli_fetch_assoc($trip_result)) {
+                $tri_ID = $fetch_trip['ID'];
+                $tri_Pic = $fetch_trip['Pic'];
+                $tri_P_From = $fetch_trip['P_From'];
+                $tri_P_To = $fetch_trip['P_To'];
+                $tri_Distance = $fetch_trip['Distance'];
+                $tri_Duration = $fetch_trip['Duration'];
+                $tri_Description_one = $fetch_trip['Description_one'];
+                $tri_Description_tow = $fetch_trip['Description_tow'];
+                $tri_Description_three = $fetch_trip['Description_three'];
+                $tri_Price = $fetch_trip['Price'];
 
-        <section class="whatsapp">
-            <form method="get">
-                <h2 style="text-align: center;"> WhatsApp </h2>
+                echo "
+                    <div class='card'>
+                        <img class='lazy' data-original='/PureRide-tours/assect/img/{$tri_Pic}' alt='galle'>
+                        <div class='headline'>
+                            <h3> {$tri_P_From} to {$tri_P_To} </h3>
+                        </div>
+                        <div class='duration_time'>
+                            <div>
+                                <h4> {$tri_Distance} </h4>
+                                <p> Distance </p>
+                            </div>
+                            <div style='width: 1px; height: 30px; background-color: var(--main-color2);'></div>
+                            <div>
+                                <h4> {$tri_Duration} </h4>
+                                <p> Duration </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class='visit'>
+                            <ul>
+                                <li> {$tri_Description_one} </li>
+                                <li> {$tri_Description_tow} </li>
+                                <li> {$tri_Description_three} </li>
+                            </ul>
+                            <br>
+                        </div>
+                        <h3> LKR {$tri_Price} | Vehicle </h3>
+                        <div class='book'>
+                            <a href='/PureRide-tours/index/{$tri_ID}'> BOOK NOW </a>
+                        </div>
+                    </div>
+                    ";
+            }
+            echo "</section>";
+        }
+        ?>
+
+        <section class="booking" style="display: <?= $display; ?>;">
+            <form method="post">
+                <div class="close">
+                    <a href="/PureRide-tours/index"> <i class="fa-solid fa-circle-xmark" style="color: #ff0000;"></i> </a>
+                </div>
+                <h2 style="text-align: center;"> Fill Form </h2>
+                <br>
+                <h3>
+                    <b> <?= $trip_P_From; ?> to <?= $trip_P_To; ?> </b>
+                </h3>
                 <br>
                 <p>
-                    <label for="name"> Name : </label>
-                    <input type="text" name="name" placeholder="Name">
+                    Distance : <b> <?= $trip_Distance; ?> </b>
+                </p>
+                <p>
+                    Duration : <b> <?= $trip_Duration; ?> </b>
                 </p>
                 <br>
                 <p>
-                    <label for="name"> E-mail : </label>
-                    <input type="email" name="email" placeholder="E-mail">
+                    <?= $trip_Description_one; ?>
+                </p>
+                <p>
+                    <?= $trip_Description_tow; ?>
+                </p>
+                <p>
+                    <?= $trip_Description_three; ?>
+                </p>
+                <br>
+                <input type="number" value="<?= $trip_ID ?>" name="id" hidden required>
+                <input type="text" value="<?= $trip_P_From; ?> to <?= $trip_P_To; ?>" name="trip_name" hidden required>
+                <p>
+                    <label for="Name"> Name :</label>
+                    <input type="text" id="Name" placeholder="Your Name" name="Name" required>
+                </p>
+                <p>
+                    <label for="email">E-mail :</label>
+                    <input type="text" id="email" placeholder="E-mail" name="email" required>
+                </p>
+                <p>
+                    <label for="Number"> Number :</label>
+                    <input type="number" id="Number" placeholder="Mobile number" name="Number" required>
+                </p>
+                <p>
+                    <label for="p_date"> Picup date :</label>
+                    <input type="date" id="p_date" name="p_date" min="<?= date("Y-m-d"); ?>" required>
                 </p>
                 <br>
                 <p>
-                    <label for="name"> Subject : </label>
-                    <input type="text" name="subject" placeholder="Subject">
-                </p>
-                <br>
-                <p>
-                    <label for="name"> Message : </label>
-                    <input type="text" name="msg" placeholder="Message">
-                </p>
-                <br>
-                <br>
-                <p>
-                    <input type="submit" name="wht-message" value="Send">
+                    <input type="submit" value="Place Order" name="booking">
                 </p>
             </form>
         </section>
@@ -436,7 +488,13 @@ include("includes/connection.php");
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.4/jquery.sticky.min.js" integrity="sha512-QABeEm/oYtKZVyaO8mQQjePTPplrV8qoT7PrwHDJCBLqZl5UmuPi3APEcWwtTNOiH24psax69XPQtEo5dAkGcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="assect/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(function() {
+            $("img.lazy").lazyload();
+        });
+    </script>
+    <script src="/PureRide-tours/assect/js/main.js"></script>
 </body>
 
 </html>

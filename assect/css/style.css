@@ -374,6 +374,7 @@ nav {
   overflow: hidden;
   overflow-x: scroll;
   display: flex;
+  align-items: flex-start;
   gap: 20px;
   padding: 20px;
   box-sizing: border-box;
@@ -462,6 +463,43 @@ nav {
   margin-top: 180px;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+.rate_list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cate {
+  width: 150px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cate ul li {
+  position: relative;
+  list-style: none;
+  height: 45px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+.cate ul li:hover a {
+  background-color: var(--shadow);
+}
+
+.cate ul li a {
+  position: absolute;
+  width: 100%;
+  text-decoration: none;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  color: var(--text-color-dark);
+  transition: 0.3s;
 }
 
 .aling .up {
@@ -741,6 +779,7 @@ table .categary {
   width: 100%;
   height: 100vh;
   position: fixed;
+  z-index: 10;
   top: 0;
   left: 0;
   backdrop-filter: blur(20px);
@@ -750,6 +789,7 @@ table .categary {
 }
 
 .whatsapp form {
+  position: relative;
   width: 90%;
   max-width: 500px;
   padding: 10px;
@@ -757,6 +797,35 @@ table .categary {
   border-radius: 5px;
   box-shadow: 0 0 10px var(--shadow);
   background-color: var(--main-color4);
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.close i {
+  font-size: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.close i:hover {
+  rotate: -360deg;
+  scale: 120%;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  border-radius: 2px;
 }
 
 form input {
@@ -828,4 +897,60 @@ form input[type="submit"]:hover {
   display: grid;
   grid-template-columns: 1fr 4fr;
   gap: 10px;
+}
+
+.whatsapp_button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding: 5px;
+  box-sizing: border-box;
+  position: fixed;
+  background-color: green;
+  bottom: 50px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.whatsapp_button:hover {
+  scale: 110%;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+.whatsapp_button i {
+  color: #fff;
+  scale: 200%;
+}
+
+.booking {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(10px);
+  background-color: var(--shadow);
+  padding: 15px;
+  box-sizing: border-box;
+  display: none;
+  justify-content: center;
+  align-items: start;
+  z-index: 2;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.booking form {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: var(--main-color4);
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--shadow);
 }

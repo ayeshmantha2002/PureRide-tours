@@ -16,6 +16,12 @@ if (isset($_POST['submit'])) {
 
 
 if (isset($_POST['order'])) {
+    // Enable error reporting
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    // Get data from POST request and escape it
     $title = mysqli_real_escape_string($connection, $_POST['title']);
     $name = mysqli_real_escape_string($connection, $_POST['name']);
     $email = mysqli_real_escape_string($connection, $_POST['email']);
@@ -30,35 +36,52 @@ if (isset($_POST['order'])) {
     $return_date = mysqli_real_escape_string($connection, $_POST['return_date']);
     $drop_off_time = mysqli_real_escape_string($connection, $_POST['drop_off_time']);
     $message = mysqli_real_escape_string($connection, $_POST['message']);
+    $order_time = date('M d'); // Added order_time
 
-    $insert_order = "INSERT INTO `orders` (`Title`, `Name`, `E-mail`, `Number`, `Pickup_Location`, `Dropoff_Location`, `Service_Type`, `Vehicle_Type`, `Passengers`, `Pickup_Date`, `Pickup_Time`, `Return_Date`, `Drop_Off_Time`, `Message`, `Status`) VALUES ('{$title}', '{$name}', '{$email}',  {$number}, '{$pickup}', '{$dropoff}', '{$service}', '{$vehicle}', {$passengers}, '{$pickup_date}', '{$pickup_time}', '{$return_date}', '{$drop_off_time}', '{$message}', 1)";
+    // Insert order into database
+    $insert_order = "INSERT INTO `orders` (`Title`, `Name`, `E-mail`, `Number`, `Pickup_Location`, `Dropoff_Location`, `Service_Type`, `Vehicle_Type`, `Passengers`, `Pickup_Date`, `Pickup_Time`, `Return_Date`, `Drop_Off_Time`, `Message`, `Order_time`, `Status`) VALUES ('{$title}', '{$name}', '{$email}', '{$number}', '{$pickup}', '{$dropoff}', '{$service}', '{$vehicle}', '{$passengers}', '{$pickup_date}', '{$pickup_time}', '{$return_date}', '{$drop_off_time}', '{$message}', '{$order_time}', 3)";
     $insert_order_result = mysqli_query($connection, $insert_order);
 
-    $to =   "pureridet@gmail.com";
-    $email_subject  =   "Order from PureRide tours";
-    $email_body =   "<b>From :</b> {$title} {$name} <br>";
-    $email_body .=   "<b>Mobile number :</b> {$number} <br>";
-    $email_body .=   "<b>E-mail :</b> {$email} <br>";
-    $email_body .=   "<b>Pickup :</b> {$pickup} <br>";
-    $email_body .=   "<b>Dropoff :</b> {$dropoff} <br>";
-    $email_body .=   "<b>Service :</b> {$service} <br>";
-    $email_body .=   "<b>Vehicle :</b> {$vehicle} <br>";
-    $email_body .=   "<b>Passengers :</b> {$passengers} <br>";
-    $email_body .=   "<b>Pickup date :</b> {$pickup_date} <br>";
-    $email_body .=   "<b>Pickup time :</b> {$pickup_time} <br>";
-    $email_body .=   "<b>Return_date :</b> {$return_date} <br>";
-    $email_body .=   "<b>Drop off time :</b> {$drop_off_time} <br>";
-    $email_body .=   "<b>Message :</b> {$message} <br>" . nl2br(strip_tags($message));
+    if ($insert_order_result) {
+        $check_last = "SELECT `ID` FROM `orders` WHERE `E-mail` = '{$email}' AND `Number` = '{$number}' ORDER BY `ID` DESC LIMIT 1";
+        $check_last_result = mysqli_query($connection, $check_last);
+        if (mysqli_num_rows($check_last_result) == 1) {
+            $fetch_ID = mysqli_fetch_assoc($check_last_result);
+            $last_ID = $fetch_ID['ID'];
+        }
+    }
 
-    $save_message =   "<b>From :</b> {$title} {$name} <br>";
-    $save_message .=   "<b>Mobile number :</b> {$number} <br>";
+    // Prepare email details
+    $to = "pureridet@gmail.com";
+    $email_subject = "Order from PureRide tours";
+    $email_body = "<b>From :</b> {$title} {$name} <br>";
+    $email_body .= "<b>Mobile number :</b> {$number} <br>";
+    $email_body .= "<b>E-mail :</b> {$email} <br>";
+    $email_body .= "<b>Pickup :</b> {$pickup} <br>";
+    $email_body .= "<b>Dropoff :</b> {$dropoff} <br>";
+    $email_body .= "<b>Service :</b> {$service} <br>";
+    $email_body .= "<b>Vehicle :</b> {$vehicle} <br>";
+    $email_body .= "<b>Passengers :</b> {$passengers} <br>";
+    $email_body .= "<b>Pickup date :</b> {$pickup_date} <br>";
+    $email_body .= "<b>Pickup time :</b> {$pickup_time} <br>";
+    $email_body .= "<b>Return date :</b> {$return_date} <br>";
+    $email_body .= "<b>Drop off time :</b> {$drop_off_time} <br>";
+    $email_body .= "<b>Message :</b> {$message} <br>" . nl2br(strip_tags($message));
+
+    $save_message = "<b>From :</b> {$title} {$name} <br>";
+    $save_message .= "<b>Mobile number :</b> {$number} <br>";
     $save_message .= "Please check the order details and contact the customer";
 
-    $header =   "From : {$email}\r\nContent-type: text/html;";
+    // Correctly format headers
+    $header = "From: {$email}\r\n";
+    $header .= "Content-Type: text/html; charset=UTF-8\r\n";
 
+    // Send email and check if it was successful
     $status = mail($to, $email_subject, $email_body, $header);
+    var_dump($status); // Debugging line
+
     $date = date("M d");
-    $insert_message = "INSERT INTO `messages` (`Icon`, `Name`, `E-mail`, `Number`, `Subject`, `Message`, `Date`, `Status`) VALUES ('fa-solid fa-car-side', '{$title} {$name}', '{$email}', {$number}, 'Order', '{$save_message}', '{$date}', 3)";
+    $insert_message = "INSERT INTO `messages` (`Order_ID`, `Icon`, `Name`, `E-mail`, `Number`, `Subject`, `Message`, `Date`, `Status`) VALUES ({$last_ID}, 'fa-solid fa-car-side', '{$title} {$name}', '{$email}', '{$number}', 'Order', '{$save_message}', '{$date}', 3)";
     $insert_message_result = mysqli_query($connection, $insert_message);
 
     $update_noti = "UPDATE `admins` SET `Notification` = 1";
@@ -67,10 +90,19 @@ if (isset($_POST['order'])) {
     if ($status) {
         header('location:index.php?mail=successfully_completed');
     } else {
-        $errors[] = "E-mail is not send.";
+        $errors[] = "E-mail is not sent.";
     }
 }
 
+if (isset($_POST['wht-message'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $message = htmlspecialchars($_POST['msg']);
+
+    $whatsappUrl = "https://api.whatsapp.com/send?phone=94712916663&text=*Name:*%20$name%0A*Email:*%20$email%0A*Message:*%20$message";
+    header("Location: $whatsappUrl");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,10 +111,10 @@ if (isset($_POST['order'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Quick-Inquiry-Form </title>
-    <link rel="stylesheet" href="assect/css/slider.css">
-    <link rel="stylesheet" href="assect/css/style.css">
-    <link rel="stylesheet" href="assect/css/mobile.css">
-    <link rel="icon" type="image/x-icon" href="assect/img/favicon.png">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/slider.css">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/style.css">
+    <link rel="stylesheet" href="/PureRide-tours/assect/css/mobile.css">
+    <link rel="icon" type="image/x-icon" href="/PureRide-tours/assect/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
@@ -321,7 +353,7 @@ if (isset($_POST['order'])) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.4/jquery.sticky.min.js" integrity="sha512-QABeEm/oYtKZVyaO8mQQjePTPplrV8qoT7PrwHDJCBLqZl5UmuPi3APEcWwtTNOiH24psax69XPQtEo5dAkGcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="assect/js/main.js"></script>
+    <script src="/PureRide-tours/assect/js/main.js"></script>
 </body>
 
 </html>

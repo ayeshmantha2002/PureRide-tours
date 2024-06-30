@@ -196,14 +196,17 @@ if (isset($_GET['delete'])) {
 
         <!-- editbox -->
         <div class="editbox_area" style="display: <?= $visible; ?>;">
+            <div class="close">
+                <a href="vehicle.php"> <i class="fa-solid fa-circle-xmark" style="color: #ff0000;"></i> </a>
+            </div>
             <div class="editbox">
                 <h2> <?= $editName; ?> </h2>
                 <div>
                     <p>
-                        <a href="delete.php?delete_vehicle_type=<?= $editId; ?>" style="background-color: red;">DELETE</a>
+                        <a href="delete.php?delete_vehicle_type=<?= $editId; ?>" style="background-color: red;" onclick="clickFunction()">DELETE</a>
                     </p>
                     <p>
-                        <a href="vehicle.php?update_validate=<?= $vehicle_updare_value; ?>&updateid=<?= $editId; ?>"><?= $vehicle_updare_status; ?></a>
+                        <a href="vehicle.php?update_validate=<?= $vehicle_updare_value; ?>&updateid=<?= $editId; ?>" onclick="clickFunction()"><?= $vehicle_updare_status; ?></a>
                     </p>
                 </div>
             </div>
@@ -214,7 +217,7 @@ if (isset($_GET['delete'])) {
             <div class="update_message_box">
                 <p class="done"> <i class="fa-solid fa-circle-check fa-beat" style="color: #00ff33;"></i> </p>
                 <h3 style="margin-bottom: 15px;"> The task is complete. </h3>
-                <p> <a href="vehicle.php"> Ok </a> </p>
+                <p> <a href="vehicle.php" onclick='clickFunction()'> Ok </a> </p>
             </div>
         </div>
 
@@ -223,7 +226,7 @@ if (isset($_GET['delete'])) {
             <div class="update_message_box">
                 <p> <i class="fa-solid fa-trash-can fa-beat" style="color: #ff0000;"></i> </p>
                 <h3 style="margin-bottom: 15px;"> The deletion is complete. </h3>
-                <p> <a href="vehicle.php"> Ok </a> </p>
+                <p> <a href="vehicle.php" onclick='clickFunction()'> Ok </a> </p>
             </div>
         </div>
     </section>

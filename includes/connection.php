@@ -2,7 +2,7 @@
 $dbhost      =   "localhost";
 $dbuser      =   "ayeshmantha";
 $dbpassword  =   "111111";
-$dbname      =   "pureride _tours";
+$dbname      =   "pureride_tours";
 
 $connection =   mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
 

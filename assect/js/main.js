@@ -65,4 +65,58 @@ $(document).ready(function () {
     $(".mobile_menu").css("opacity", "0");
     menu = false;
   });
+
+  var fleet = true;
+  $(".fleet_link").click(function () {
+    if (fleet == true) {
+      $(".fleet_view").css("display", "block");
+      $(".rate_view").css("display", "none");
+      fleet = false;
+    } else {
+      $(".fleet_view").css("display", "none");
+      $(".rate_view").css("display", "none");
+      fleet = true;
+    }
+  });
+
+  var rates = true;
+  $(".rates_link").click(function () {
+    if (rates == true) {
+      $(".rate_view").css("display", "flex");
+      $(".fleet_view").css("display", "none");
+      rates = false;
+    } else {
+      $(".rate_view").css("display", "none");
+      $(".fleet_view").css("display", "none");
+      rates = true;
+    }
+  });
+
+  $("#reply").click(function () {
+    $(".reply_section").css("display", "flex");
+  });
+
+  $(".xxx").click(function () {
+    $(".reply_section").css("display", "none");
+    $(".whatsapp").css("display", "none");
+    $(".booking").css("display", "none");
+  });
+
+  $(".whatsapp_button").click(function () {
+    $(".whatsapp").css("display", "flex");
+  });
+  $("#whatsapp_dd").click(function () {
+    $(".whatsapp").css("display", "flex");
+  });
+
+  var show_pw = true;
+  $("#show_pw").click(function () {
+    if (show_pw == true) {
+      $(".pw").attr("type", "text");
+      show_pw = false;
+    } else {
+      $(".pw").attr("type", "password");
+      show_pw = true;
+    }
+  });
 });

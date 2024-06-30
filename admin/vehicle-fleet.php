@@ -258,8 +258,8 @@ if (isset($_GET['delete'])) {
                             <h4> {$fleet_Vehicle_name} </h4>
                             <p> {$fleet_Description} </p>
                             <div class='links'>
-                                <a href='vehicle-fleet.php?edit_id={$fleet_ID}'> EDIT </a>
-                                <a href='delete.php?delete_id={$fleet_ID}&image_name={$fleet_Img}' style='background-color: red;'> DELETE </a>
+                                <a href='vehicle-fleet.php?edit_id={$fleet_ID}' onclick='clickFunction()'> EDIT </a>
+                                <a href='delete.php?delete_id={$fleet_ID}&image_name={$fleet_Img}' onclick='clickFunction()' style='background-color: red;'> DELETE </a>
                             </div>
                         </div>
                     </div>
@@ -390,8 +390,8 @@ if (isset($_GET['delete'])) {
                             </p>
                             <br>
                             <div class='links'>
-                                <a href='vehicle-rates-edit.php?edit_id={$rates_ID}'> EDIT </a>
-                                <a href='delete.php?delete_rates_id={$rates_ID}&image_name={$rates_Image_name}' style='background-color: red;'> DELETE </a>
+                                <a href='vehicle-rates-edit.php?edit_id={$rates_ID}' onclick='clickFunction()'> EDIT </a>
+                                <a href='delete.php?delete_rates_id={$rates_ID}&image_name={$rates_Image_name}' onclick='clickFunction()' style='background-color: red;'> DELETE </a>
                             </div>
                         </div>
                     </div>
@@ -434,7 +434,7 @@ if (isset($_GET['delete'])) {
             <div class="update_message_box">
                 <p class="done"> <i class="fa-solid fa-circle-check fa-beat" style="color: #00ff33;"></i> </p>
                 <h3 style="margin-bottom: 15px;"> Added a new record. </h3>
-                <p> <a href="vehicle-fleet.php"> Ok </a> </p>
+                <p> <a href="vehicle-fleet.php" onclick='clickFunction()'> Ok </a> </p>
             </div>
         </div>
 
@@ -443,7 +443,7 @@ if (isset($_GET['delete'])) {
             <div class="update_message_box">
                 <p> <i class="fa-solid fa-trash-can fa-beat" style="color: #ff0000;"></i> </p>
                 <h3 style="margin-bottom: 15px;"> The deletion is complete. </h3>
-                <p> <a href="vehicle-fleet.php"> Ok </a> </p>
+                <p> <a href="vehicle-fleet.php" onclick='clickFunction()'> Ok </a> </p>
             </div>
         </div>
     </section>

@@ -5,7 +5,7 @@
         </div>
         <div class="com_name">
             <div>
-                <img src="assect/img/Pueride Tours Nav Logo.png" alt="logo">
+                <img src="/PureRide-tours/assect/img/Pueride Tours Nav Logo.png" alt="logo">
             </div>
             <div>
                 <h1> PureRide tours </h1>
@@ -14,12 +14,12 @@
         </div>
         <div class="up_links">
             <ul>
-                <li> <a href="index"> HOME </a> </li>
-                <li> <a href="index.php#about"> ABOUT </a> </li>
-                <li> <a href="index.php#vehicle_feeft"> VEHICLE FLEET </a> </li>
-                <li> <a href="index.php#services"> SERVICE </a> </li>
+                <li> <a href="/PureRide-tours/index"> HOME </a> </li>
+                <li> <a href="/PureRide-tours/index.php#about"> ABOUT </a> </li>
+                <li> <a href="/PureRide-tours/index.php#vehicle_feeft"> VEHICLE FLEET </a> </li>
+                <li> <a href="/PureRide-tours/index.php#services"> SERVICE </a> </li>
                 <li> <a href="#"> GUIDES </a> </li>
-                <li> <a href="contact"> CONTACT US </a> </li>
+                <li> <a href="/PureRide-tours/contact"> CONTACT US </a> </li>
             </ul>
         </div>
         <div class="hotline">
@@ -33,15 +33,37 @@
                 <tr>
                     <td>
                         <select name="dr_mod" required>
-                            <option value="Self Drive" disabled>Self Drive</option>
-                            <option value="Tours/ Chauffeur Driven">Tours/ Chauffeur Driven</option>
-                            <option value="Weddings &amp; Events">Weddings &amp; Events</option>
+                            <?php
+                            // list Service 
+                            $service_list = "SELECT * FROM `service` WHERE `Status` = 1";
+                            $service_list_result = mysqli_query($connection, $service_list);
+                            if (mysqli_num_rows($service_list_result) > 0) {
+                                while ($setch_Services = mysqli_fetch_assoc($service_list_result)) {
+                                    $service_type = $setch_Services['Service'];
+                                    echo " <option value='{$service_type}'>{$service_type}</option> ";
+                                }
+                            }
+                            ?>
                         </select>
                     </td>
                     <td>
                         <select name="location" required>
                             <option value=""> Pickup Location </option>
-                            <option value="Ettampitiya"> Ettampitiya </option>
+                            <?php
+                            // list pickup_locations 
+                            $location_list = "SELECT * FROM `pickup_location`";
+                            $location_list_result = mysqli_query($connection, $location_list);
+                            if (mysqli_num_rows($location_list_result) > 0) {
+                                while ($fetch_pickup_locations = mysqli_fetch_assoc($location_list_result)) {
+                                    $pickup_location_ID = $fetch_pickup_locations['ID'];
+                                    $pickup_location_type = $fetch_pickup_locations['Location'];
+                                    $pickup_location_status = $fetch_pickup_locations['Status'];
+
+                                    echo " <option value='{$pickup_location_type}'> {$pickup_location_type} </option> ";
+                                }
+                            }
+                            ?>
+                            <option> Other </option>
                         </select>
                     </td>
                     <td>
@@ -106,15 +128,37 @@
     <form action="quick" method="post">
         <p>
             <select name="dr_mod" required>
-                <option value="Self Drive" disabled>Self Drive</option>
-                <option value="Tours/ Chauffeur Driven">Tours/ Chauffeur Driven</option>
-                <option value="Weddings &amp; Events">Weddings &amp; Events</option>
+                <?php
+                // list Service 
+                $service_list = "SELECT * FROM `service` WHERE `Status` = 1";
+                $service_list_result = mysqli_query($connection, $service_list);
+                if (mysqli_num_rows($service_list_result) > 0) {
+                    while ($setch_Services = mysqli_fetch_assoc($service_list_result)) {
+                        $service_type = $setch_Services['Service'];
+                        echo " <option value='{$service_type}'>{$service_type}</option> ";
+                    }
+                }
+                ?>
             </select>
         </p>
         <p>
             <select name="location" required>
                 <option value=""> Pickup Location </option>
-                <option value="Ettampitiya"> Ettampitiya </option>
+                <?php
+                // list pickup_locations 
+                $location_list = "SELECT * FROM `pickup_location`";
+                $location_list_result = mysqli_query($connection, $location_list);
+                if (mysqli_num_rows($location_list_result) > 0) {
+                    while ($fetch_pickup_locations = mysqli_fetch_assoc($location_list_result)) {
+                        $pickup_location_ID = $fetch_pickup_locations['ID'];
+                        $pickup_location_type = $fetch_pickup_locations['Location'];
+                        $pickup_location_status = $fetch_pickup_locations['Status'];
+
+                        echo " <option value='{$pickup_location_type}'> {$pickup_location_type} </option> ";
+                    }
+                }
+                ?>
+                <option> Other </option>
             </select>
         </p>
         <p>
@@ -157,10 +201,10 @@
 <!-- mobile menu -->
 <div class="mobile_menu">
     <br>
-    <p> <a href="index" class="active_page"> HOME </a> </p>
-    <p> <a href="index.php#about"> ABOUT </a> </p>
-    <p> <a href="index.php#vehicle_feeft"> VEHICLE FLEET </a> </p>
-    <p> <a href="index.php#services"> SERVICE </a> </p>
+    <p> <a href="/PureRide-tours/index" class="active_page"> HOME </a> </p>
+    <p> <a href="/PureRide-tours/index.php#about"> ABOUT </a> </p>
+    <p> <a href="/PureRide-tours/index.php#vehicle_feeft"> VEHICLE FLEET </a> </p>
+    <p> <a href="/PureRide-tours/index.php#services"> SERVICE </a> </p>
     <p> <a href="#"> GUIDES </a> </p>
-    <p> <a href="contact"> CONTACT US </a> </p>
+    <p> <a href="/PureRide-tours/contact"> CONTACT US </a> </p>
 </div>

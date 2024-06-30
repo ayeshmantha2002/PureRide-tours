@@ -1,8 +1,11 @@
 RewriteEngine On
 
 RewriteRule ^index$ index.php [NC,L]
+RewriteRule ^index/([0-9]+)$ index.php?traval=$1 [NC,L]
 RewriteRule ^contact$ view/contact-us.php [NC,L]
 RewriteRule ^quick$ view/quick-inquiry-form.php [NC,L]
+RewriteRule ^rates/([a-zA-Z-]+)$ view/rates.php?cat=$1 [NC,L]
+RewriteRule ^rates$ view/rates.php [NC,L]
 RewriteRule ^vehicle-fleet$ view/vehicle-fleet.php [NC,L]
 
 # Disabling Directory Browse

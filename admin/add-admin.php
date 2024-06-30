@@ -39,6 +39,87 @@ if (isset($_POST['add_addmin'])) {
 $admins = "SELECT * FROM `admins`";
 $admins_result = mysqli_query($connection, $admins);
 
+if (isset($_GET['admin_id'])) {
+    $edit_id = mysqli_real_escape_string($connection, $_GET['admin_id']);
+
+    $chech_status = "SELECT `Status` FROM `admins` WHERE `ID` = {$edit_id}";
+    $chech_status_result = mysqli_query($connection, $chech_status);
+    if (mysqli_num_rows($chech_status_result) == 1) {
+        $fetch_check = mysqli_fetch_assoc($chech_status_result);
+        $check_status = $fetch_check['Status'];
+        if ($check_status == 1) {
+            $button = "<input type='submit' onclick='clickFunction()' value='Deactivert' name='deactivet'>";
+        } elseif ($check_status == 2) {
+            $button = "<input type='submit' onclick='clickFunction()' value='Activert' name='activet'>";
+        }
+    }
+    $display = "flex";
+} else {
+    $edit_id = "";
+    $display = "none";
+}
+
+if (isset($_POST['deactivet'])) {
+    $deactivet_id = mysqli_real_escape_string($connection, $_POST['edit_id']);
+    $update_deactivet = "UPDATE `admins` SET `Status` = 2 WHERE `ID` = {$deactivet_id}";
+    $update_deactivet_result = mysqli_query($connection, $update_deactivet);
+    if ($update_deactivet_result) {
+        header("location: add-admin.php?recode=updated");
+    }
+}
+
+if (isset($_POST['activet'])) {
+    $activet_id = mysqli_real_escape_string($connection, $_POST['edit_id']);
+    $update_activet = "UPDATE `admins` SET `Status` = 1 WHERE `ID` = {$activet_id}";
+    $update_activet_result = mysqli_query($connection, $update_activet);
+    if ($update_activet_result) {
+        header("location: add-admin.php?recode=updated");
+    }
+}
+
+if (isset($_POST['delete'])) {
+    $delete_id = mysqli_real_escape_string($connection, $_POST['edit_id']);
+    $update_delete = "DELETE FROM `admins` WHERE `ID` = {$delete_id}";
+    $update_delete_result = mysqli_query($connection, $update_delete);
+    if ($update_delete_result) {
+        header("location: add-admin.php?delete=done");
+    }
+}
+
+
+// admins owner feachurs 
+$admins_job = "SELECT * FROM `admins` WHERE `ID` = {$_SESSION['ID']} AND `Job` = 'OWNER'";
+$admins_job_result = mysqli_query($connection, $admins_job);
+if (mysqli_num_rows($admins_job_result) == 1) {
+    $disabled = "";
+    $display_edit = "flex";
+} else {
+    $disabled = "disabled";
+    $display_edit = "none";
+}
+
+// update_message
+if (isset($_GET['recode'])) {
+    if ($_GET['recode'] == "updated") {
+        $update_message = "flex";
+    } else {
+        $update_message = "none";
+    }
+} else {
+    $update_message = "none";
+}
+
+// delete_message
+if (isset($_GET['delete'])) {
+    if ($_GET['delete'] == "done") {
+        $delete_message = "flex";
+    } else {
+        $delete_message = "none";
+    }
+} else {
+    $delete_message = "none";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -95,20 +176,20 @@ $admins_result = mysqli_query($connection, $admins);
             </p>
             <div class="double">
                 <p>
-                    <input type="text" placeholder="First Name" name="Fname" id="Fname" value="<?= $Fname ?>" required>
+                    <input type="text" placeholder="First Name" name="Fname" id="Fname" value="<?= $Fname ?>" required <?= $disabled; ?>>
                 </p>
                 <p>
-                    <input type="text" placeholder="Last Name" name="Lname" id="Lname" value="<?= $Lname ?>" required>
+                    <input type="text" placeholder="Last Name" name="Lname" id="Lname" value="<?= $Lname ?>" required <?= $disabled; ?>>
                 </p>
             </div>
             <p>
-                <input type="text" placeholder="Username" name="Uname" id="Uname" value="<?= $Uname ?>" required>
+                <input type="text" placeholder="Username" name="Uname" id="Uname" value="<?= $Uname ?>" required <?= $disabled; ?>>
             </p>
             <p>
-                <input type="text" placeholder="Password" name="Pword" id="Pword" value="<?= $Pword ?>" required>
+                <input type="text" placeholder="Password" name="Pword" id="Pword" value="<?= $Pword ?>" required <?= $disabled; ?>>
             </p>
             <p>
-                <input type="submit" value="Register" name="add_addmin">
+                <input type="submit" value="Register" name="add_addmin" <?= $disabled; ?>>
             </p>
         </form>
 
@@ -120,6 +201,7 @@ $admins_result = mysqli_query($connection, $admins);
                     <?php
                     if (mysqli_num_rows($admins_result) > 0) {
                         while ($fetch_admins = mysqli_fetch_assoc($admins_result)) {
+                            $admin_ID = $fetch_admins['ID'];
                             $admin_First_name = $fetch_admins['First_name'];
                             $admin_Last_name = $fetch_admins['Last_name'];
                             $admin_Username = $fetch_admins['Username'];
@@ -127,7 +209,7 @@ $admins_result = mysqli_query($connection, $admins);
                             $admin_Register_date = $fetch_admins['Register_date'];
 
                             echo "
-                                <a href='#'>
+                                <a href='add-admin.php?admin_id={$admin_ID}'>
                                     <div class='msg'>
                                         <div class='img'>
                                             <i class='fa-solid fa-user-tie'></i>
@@ -152,6 +234,37 @@ $admins_result = mysqli_query($connection, $admins);
                     }
                     ?>
                 </div>
+                <div style="display: <?= $display_edit; ?>;">
+                    <section class="edit_id" style="display: <?= $display; ?>;">
+                        <div class="close">
+                            <a href="add-admin.php"> <i class="fa-solid fa-circle-xmark" style="color: #ff0000;"></i> </a>
+                        </div>
+                        <form method="post">
+                            <p> <input type="number" name="edit_id" value="<?= $admin_ID; ?>" hidden> </p>
+                            <p> <?= $button; ?> </p>
+                            <br>
+                            <p> <input type="submit" style="background-color: #ff0000;" value="Delete Admin" name="delete"> </p>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- update_message -->
+        <div class="update_message" style="display: <?= $update_message; ?>;">
+            <div class="update_message_box">
+                <p class="done"> <i class="fa-solid fa-circle-check fa-beat" style="color: #00ff33;"></i> </p>
+                <h3 style="margin-bottom: 15px;"> Added a new record. </h3>
+                <p> <a href="add-admin.php" onclick='clickFunction()'> Ok </a> </p>
+            </div>
+        </div>
+
+        <!-- delete_message -->
+        <div class="update_message" style="display: <?= $delete_message; ?>;">
+            <div class="update_message_box">
+                <p> <i class="fa-solid fa-trash-can fa-beat" style="color: #ff0000;"></i> </p>
+                <h3 style="margin-bottom: 15px;"> The deletion is complete. </h3>
+                <p> <a href="add-admin.php" onclick='clickFunction()'> Ok </a> </p>
             </div>
         </div>
     </section>

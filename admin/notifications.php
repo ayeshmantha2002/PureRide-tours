@@ -81,6 +81,9 @@ $notifiUP_result = mysqli_query($connection, $notifiUP);
                                 </a>
                             ";
                         }
+                    } else {
+                        echo "<br><br><br><br><br><br>
+                    <p style='text-align: center;'> No Messages </p>";
                     }
                     ?>
                 </div>
